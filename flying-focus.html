@@ -6,7 +6,7 @@
 
 <dom-module id="flying-focus">
   <template>
-    <div id="flying-focus"></div>
+    <div id="flyingFocus"></div>
   </template>
 </dom-module>
 
@@ -23,54 +23,57 @@
       }
     },
 
+    _movingId: 0,
+    _keyDownTime: 0,
+    _prevFocused: null,
+    _isFirstFocus: true,
+
+    created: function() {
+      document.documentElement.addEventListener('focus', this._onFocus.bind(this), true);
+      document.documentElement.addEventListener('blur', this._onEnd.bind(this), true);
+      document.documentElement.addEventListener('keydown', this._onKeyDown.bind(this), false);
+    },
+
     ready: function() {
       var duration = this.duration / 1000 + 's';
       this.$.flyingFocus.style.transitionDuration = duration;
       this.$.flyingFocus.style.WebkitTransitionDuration = duration;
-      document.documentElement.addEventListener('focus', this._onFocus, true);
-      document.documentElement.addEventListener('blur', this._onEnd, true);
-      document.documentElement.addEventListener('keydown', this._onKeyDown, false);
-    }
-
-    movingId: 0,
-    prevFocused: null,
-    isFirstFocus: true,
-    keyDownTime: 0,
+    },
 
     _onKeyDown: function(event) {
       var code = event.which;
       // Show animation only upon Tab or Arrow keys press.
       if (code === 9 || (code > 36 && code < 41)) {
-        keyDownTime = now();
+        this._keyDownTime = this._now();
       }
     },
 
     _onFocus: function(event) {
       var target = event.target;
-      if (target.id === 'flying-focus') {
+      if (target.id === 'flyingFocus') {
         return;
       }
-      var offset = offsetOf(target);
+      var offset = this._offsetOf(target);
       this.$.flyingFocus.style.left = offset.left + 'px';
       this.$.flyingFocus.style.top = offset.top + 'px';
       this.$.flyingFocus.style.width = target.offsetWidth + 'px';
       this.$.flyingFocus.style.height = target.offsetHeight + 'px';
 
-      if (this.isFirstFocus) {
-        this.isFirstFocus = false;
+      if (this._isFirstFocus) {
+        this._isFirstFocus = false;
         return;
       }
 
-      if (this._now() - this.keyDownTime > 42) {
+      if (this._now() - this._keyDownTime > 42) {
         return;
       }
 
-      this.onEnd();
+      this._onEnd();
       target.classList.add('flying-focus_target');
       this.$.flyingFocus.classList.add('flying-focus_visible');
-      this.prevFocused = target;
-      this.movingId = setTimeout(this.onEnd, this.DURATION);
-    }
+      this._prevFocused = target;
+      this._movingId = this.async(this._onEnd, this.duration);
+    },
 
     _offsetOf: function(elem) {
       var rect = elem.getBoundingClientRect();
@@ -87,15 +90,15 @@
     },
 
     _onEnd: function() {
-      if (!this.movingId) {
+      if (!this._movingId) {
         return;
       }
-      clearTimeout(movingId);
-      this.movingId = 0;
+      this.cancelAsync(this._movingId);
+      this._movingId = 0;
       this.$.flyingFocus.classList.remove('flying-focus_visible');
-      this.prevFocused.classList.remove('flying-focus_target');
-      this.prevFocused = null;
-    }
+      this._prevFocused.classList.remove('flying-focus_target');
+      this._prevFocused = null;
+    },
 
     _now: function() {
       return new Date().valueOf();
