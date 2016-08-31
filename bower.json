@@ -1,5 +1,5 @@
 {
-  "name": "flying-focus",
+  "name": "flying-focus-element",
   "version": "0.1.0",
   "authors": [
     "Felix Zapata <fzberlinches@gmail.com>"
@@ -11,7 +11,7 @@
     "polymer",
     "a11y"
   ],
-  "main": "flying-focus.html",
+  "main": "flying-focus-element.html",
   "license": "http://polymer.github.io/LICENSE.txt",
   "homepage": "https://github.com/felixzapata/flying-focus/",
   "ignore": [
