@@ -1,0 +1,35 @@
+{
+  "name": "flying-focus-element",
+  "authors": [
+    "Felix Zapata <fzberlinches@gmail.com>"
+  ],
+  "description": "Polymer component to adds a transition to the focus outline when you tab around inputs, buttons, and links.",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "a11y"
+  ],
+  "main": "flying-focus-element.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/felixzapata/flying-focus/",
+  "ignore": [
+    "/.*"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.5.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0"
+  },
+  "_release": "a2e3ec8d60",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "a2e3ec8d602ad04da9d1668ae81b949b176427cf"
+  },
+  "_source": "https://github.com/felixzapata/flying-focus-element.git",
+  "_target": "master",
+  "_originalSource": "https://github.com/felixzapata/flying-focus-element.git",
+  "_direct": true
+}
