@@ -84,7 +84,7 @@ Based on [Focus Transition](https://github.com/NV/flying-focus) and examples ins
     },
 
     _onFocus: function(event) {
-      var target = event.target;
+      var target = Polymer.dom(event).rootTarget;
       if (target.id === 'flyingFocus') {
         return;
       }
